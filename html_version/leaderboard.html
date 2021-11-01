@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>UFO Wars</title>
+        <link  rel="stylesheet" type="text/css" href="../static/style/style.css">
+        <style>
+            table {
+                width: 60%;
+                margin: 0 auto;
+                text-align: center;
+                border-collapse: collapse;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 1.2vw;
+                border: solid 3px #000;
+            }
+            table th, td, tr {
+                height: 5vh;
+                width: 15%;
+                border: solid 2px #000;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Header -->
+        <header>
+            <img src="../static/images/logo.png" alt="logotype of the website">
+            <h2>UFO WARS</h2>
+            <div>
+                <span class="sign-in">Sign In</span>
+                <span class="sign-up">Sign Up</span>
+            </div>
+        </header>
+        <!-- the navigation bar -->
+        <nav>
+            <ul class="main-nav">
+                <a class="menu-item" href="index.html">
+                    <li>Home</li>
+                </a>
+                <a class="menu-item" href="game.html">
+                    <li>Game</li>
+                </a>
+                <a class="menu-item" href="rules.html">
+                    <li>How to play</li>
+                </a>
+                <a class="menu-item active" href="leaderboard.html">
+                    <li>Leader board</li>
+                </a>
+                <a class="menu-item" href="about.html">
+                    <li>About us</li>
+                </a>
+            </ul>
+        </nav>
+        <!-- the main content -->
+        <div class="content">
+            <!-- Registration modal window -->
+            <div id="registration-window" class="popup-window">
+                <div class="sign-form">
+                    <span id="reg-closeWindow" class="closeWindow">&times;</span>
+                    <h1>Sign up Form</h1>
+                    <p class="error-message required-field"></p>
+                    <form>
+                        <label for="txtUsername">Username <span class="required-field">*</span>:</label>
+                        <input type="text" id="reg-txtUsername" required name="username">
+                        <br>
+                        <label for="txtEmail">Email <span class="required-field">*</span>:</label>
+                        <input type="text" id="txtEmail" placeholder="e.g. youraddress@example.com" required name="email">
+                        <br>
+                        <label for="txtPhone"> Phone number <span class="required-field">*</span>:</label>
+                        <input type="text" id="txtPhone" placeholder="format +0123456789" required name="phone">
+                        <br>
+                        <label for="sltGender">Gender <span class="required-field">*</span>:</label>
+                        <select id="sltGender" required name="gender">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">other</option>
+                        </select>
+                        <br>
+                        <label for="txtPassword">Password<span class="required-field">*</span>:</label>
+                        <input type="password" id="reg-txtPassword" required name="password">
+                        <br>
+                        <label for="txtPassConfirm">Confirm password <span class="required-field">*</span>:</label>
+                        <input type="password" id="txtPassConfirm" required name="confpassword">
+                        <br>
+                        <input type="checkbox" id="chkAge" required name="chkage">
+                        <label id="chkAgeLabel" for="chkAge">Confirm that you are over 12 years old <span class="required-field">*</span></label>
+                        <br>
+                        <p><span class="required-field">*</span> Required fields</p>
+                        <input id="reg-form-submit" class="btnSubmit" type="submit" value="submit">
+                    </form>
+                </div>
+            </div>
+            <!-- Login modal window -->
+            <div id="login-window" class="popup-window">
+                <div class="sign-form">
+                    <span id="login-closeWindow" class="closeWindow">&times;</span>
+                    <h1>Sign up Form</h1>
+                    <p class="error-message required-field"></p>
+                    <form>
+                        <label for="txtUsername">Username:</label>
+                        <input type="text" id="login-txtUsername" required name="username">
+                        <br>
+                        <label for="txtPassword">Password:</label>
+                        <input type="password" id="login-txtPassword" required name="password">
+                        <br>
+                        <input type="checkbox" id="savePass" required name="savePass">
+                        <label id="savePassLabel" for="savePass">Save password</label>
+                        <br>
+                        <input id="login-form-submit" class="btnSubmit" type="submit" value="submit">
+                    </form>
+                </div>
+            </div>
+            <h1>Leader Board</h1>
+            <div class="description section">
+                <table>
+                    <tr>
+                        <th>Username</th>
+                        <th>Scores</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>   
+        <!-- footer -->
+        <footer>
+            <p class="footer-item">Contact us:</p>
+            <div class="footer-item">
+                <p>email: ufowars@example.com</p>
+                <p>phone: +1 (234) 567-89-01</p>
+            </div>
+            <h3 class="footer-item age-limit">12+</h3>
+        </footer>
+        <script src="../static/js/popup-windows.js"></script>
+    </body>
+</html>

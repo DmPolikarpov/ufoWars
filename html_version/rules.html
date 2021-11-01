@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>UFO Wars</title>
+        <link  rel="stylesheet" type="text/css" href="../static/style/style.css">
+        <style>
+            table {
+                width: 100%;
+                text-align: center;
+                border-collapse: collapse;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 1.2vw;
+                margin-bottom: 5vh;
+            }
+            table th, td, tr {
+                height: 5vh;
+                width: 10%;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Header -->
+        <header>
+            <img src="../static/images/logo.png" alt="logotype of the website">
+            <h2>UFO WARS</h2>
+            <div>
+                <span class="sign-in">Sign In</span>
+                <span class="sign-up">Sign Up</span>
+            </div>
+        </header>
+        <!-- the navigation bar -->
+        <nav>
+            <ul class="main-nav">
+                <a class="menu-item" href="index.html">
+                    <li>Home</li>
+                </a>
+                <a class="menu-item" href="game.html">
+                    <li>Game</li>
+                </a>
+                <a class="menu-item active" href="rules.html">
+                    <li>How to play</li>
+                </a>
+                <a class="menu-item" href="leaderboard.html">
+                    <li>Leader board</li>
+                </a>
+                <a class="menu-item" href="about.html">
+                    <li>About us</li>
+                </a>
+            </ul>
+        </nav>
+        <!-- the main content -->
+        <div class="content">
+            <!-- Registration modal window -->
+            <div id="registration-window" class="popup-window">
+                <div class="sign-form">
+                    <span id="reg-closeWindow" class="closeWindow">&times;</span>
+                    <h1>Sign up Form</h1>
+                    <p class="error-message required-field"></p>
+                    <form>
+                        <label for="txtUsername">Username <span class="required-field">*</span>:</label>
+                        <input type="text" id="reg-txtUsername" required name="username">
+                        <br>
+                        <label for="txtEmail">Email <span class="required-field">*</span>:</label>
+                        <input type="text" id="txtEmail" placeholder="e.g. youraddress@example.com" required name="email">
+                        <br>
+                        <label for="txtPhone"> Phone number <span class="required-field">*</span>:</label>
+                        <input type="text" id="txtPhone" placeholder="format +0123456789" required name="phone">
+                        <br>
+                        <label for="sltGender">Gender <span class="required-field">*</span>:</label>
+                        <select id="sltGender" required name="gender">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">other</option>
+                        </select>
+                        <br>
+                        <label for="txtPassword">Password<span class="required-field">*</span>:</label>
+                        <input type="password" id="reg-txtPassword" required name="password">
+                        <br>
+                        <label for="txtPassConfirm">Confirm password <span class="required-field">*</span>:</label>
+                        <input type="password" id="txtPassConfirm" required name="confpassword">
+                        <br>
+                        <input type="checkbox" id="chkAge" required name="chkage">
+                        <label id="chkAgeLabel" for="chkAge">Confirm that you are over 12 years old <span class="required-field">*</span></label>
+                        <br>
+                        <p><span class="required-field">*</span> Required fields</p>
+                        <input id="reg-form-submit" class="btnSubmit" type="submit" value="submit">
+                    </form>
+                </div>
+            </div>
+            <!-- Login modal window -->
+            <div id="login-window" class="popup-window">
+                <div class="sign-form">
+                    <span id="login-closeWindow" class="closeWindow">&times;</span>
+                    <h1>Sign up Form</h1>
+                    <p class="error-message required-field"></p>
+                    <form>
+                        <label for="txtUsername">Username:</label>
+                        <input type="text" id="login-txtUsername" required name="username">
+                        <br>
+                        <label for="txtPassword">Password:</label>
+                        <input type="password" id="login-txtPassword" required name="password">
+                        <br>
+                        <input type="checkbox" id="savePass" required name="savePass">
+                        <label id="savePassLabel" for="savePass">Save password</label>
+                        <br>
+                        <input id="login-form-submit" class="btnSubmit" type="submit" value="submit">
+                    </form>
+                </div>
+            </div>
+            <h1>How to play!</h1>
+            <!-- game description -->
+            <div class="description section">
+                <h2 class="section-title">Game:</h2>
+                <p>You have 3 attempts and should hit the enemy UFO 3 times to kill it.
+                    After each successful hitting the UFO of the enemy increases its speed and speed 
+                    of its bullets. Besides, after each successful hitting one additional object appears 
+                    that can protect enemy's UFO from uesr's bullets.
+                </p>
+                <p>In addition to that, you should protect the planet from bullets of enemy UFO with a help 
+                    of a special shield.
+                </p>    
+            </div>
+            <!-- goals of the game -->
+            <div class="description section">
+                <h2 class="section-title">Goal of the game:</h2>
+                <p>You should kill UFO of enemy and collect more scores.</p>
+                <p>There is a leader board in the game. User who will collect more scores gets more high rating.</p>    
+            </div>
+            <!-- controls -->
+            <div class="description section">
+                <h2 class="section-title">Control:</h2>
+                <table>
+                    <tr>
+                        <th class="bold" colspan="2">UFO</th>
+                        <th class="bold" colspan="2">Shield</th>
+                    </tr>
+                    <tr>
+                        <td>Move to the right:</td>
+                        <td class="bold">D</td>
+                        <td>Move to the right:</td>
+                        <td class="bold">RIGHT</td>
+                    </tr>
+                    <tr>
+                        <td>Move to the left:</td>
+                        <td class="bold">S</td>
+                        <td>Move to the left:</td>
+                        <td class="bold">LEFT</td>
+                    </tr>
+                    <tr>
+                        <td>Strike:</td>
+                        <td class="bold">SPACE</td>
+                    </tr>
+                </table>  
+            </div>
+            <!-- scores -->
+            <div class="description section">
+                <h2 class="section-title">Scores:</h2>
+                <table>
+                    <tr>
+                        <td>Catch a bullet with a shield:</td>
+                        <td class="bold">+1</td>
+                        <td>your planet is hit:</td>
+                        <td class="bold">-15</td>
+                    </tr>
+                    <tr>
+                        <td>The first hit:</td>
+                        <td class="bold">+20</td>
+                        <td>You missed a hit:</td>
+                        <td class="bold">-10 and -1 attempt</td>
+                    </tr>
+                    <tr>
+                        <td>The second hit:</td>
+                        <td class="bold">+50</td>
+                    </tr>
+                    <tr>
+                        <td>The third hit:</td>
+                        <td class="bold">+100</td>
+                    </tr>
+                </table>  
+            </div>
+        </div>
+        <!-- footer -->
+        <footer>
+            <p class="footer-item">Contact us:</p>
+            <div class="footer-item">
+                <p>email: ufowars@example.com</p>
+                <p>phone: +1 (234) 567-89-01</p>
+            </div>
+            <h3 class="footer-item age-limit">12+</h3>
+        </footer>
+        <script src="../static/js/popup-windows.js"></script>
+    </body>
+</html>
