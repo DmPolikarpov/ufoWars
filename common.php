@@ -157,6 +157,8 @@
         echo '</footer>';
         echo '<script src="static/js/popup-windows.js"></script>';
         if ($pageName == "game") {
+            echo '<script src="static/js/element.js"></script>';
+            echo '<script src="static/js/bullet.js"></script>';
             echo '<script src="static/js/game.js"></script>';
         }
         echo '</body>';

@@ -1,48 +1,4 @@
-class Element extends Image {
-    x0 = 0;
-    y0 = 0;
-    width = 0;
-    height = 0;
-    leftSwitch = true;
-    rightSwitch = false;
-    speed = 3;
-    rightMove = false;
-    leftMove = false;
-
-    constructor(x0, y0, width, height, source) {
-        super();
-        super.src = source;
-        this.x0 = x0;
-        this.y0 = y0;
-        this.width = width;
-        this.height = height;
-    }
-
-}
-
-class Bullet {
-    x0 = 0;
-    y0 = 0;
-    width = 0;
-    height = 0;
-    color = "#FFFFFF";
-    speed = 3;
-
-    constructor(x0, y0, width, height, color, context) {
-        this.color = color;
-        this.x0 = x0;
-        this.y0 = y0;
-        this.width = width;
-        this.height = height;
-        this.context = context;
-    }
-
-    draw() {
-        this.context.fillStyle = this.color;
-        this.context.fillRect(this.x0, this.y0, this.width, this.height);
-    }
-}
-
+//create variables for DOM elements
 const startGame = document.getElementById("btnNewGame");
 const resetGame = document.getElementById("btnReset");
 const canvas = document.getElementById("game");
@@ -53,22 +9,70 @@ const enemyUfo = document.getElementById("enemy-ufo");
 const shieldElement = document.getElementById("shield");
 const addLogo = document.getElementsByClassName("addLogo")[0];
 const startMessage = document.getElementsByClassName("start-message")[0];
-playerScores = document.getElementById("score-value");
-playerLifes = document.getElementById("attempts-value");
+const playerScores = document.getElementById("score-value");
+const playerLifes = document.getElementById("attempts-value");
+//define sizes of canvas
 canvas.width = 1500;
 canvas.height = 1000;
+//create variables for canvas properties
 const canvasWidth = canvas.width;
 const canvasHeight = canvas.height;
+//create instanses of class Element for enemy space ship, user space ship and a shield
 const enemy = new Element(684, 76, 132, 76, enemyUfo.src);
 const user = new Element(684, 833, 132, 76, userUfo.src);
 const shield = new Element(684, 734, 142, 19, shieldElement.src);
-
-let game = false;
+//create variables to control the game, store bullets, scores and lifes
+let gameProcess = false;
 let runningGame;
+let pause;
 let allEnemyBullets = [];
-let scores = 0;
-let lifes = 3;
+let scores;
+let lifes;
 
+//function that runs the game
+let game = () => {
+    if(!gameProcess) {
+        scores = 0;
+        lifes = 3;
+        gameProcess = true;
+        startGame.classList.toggle("btnActive");
+        resetGame.classList.toggle("btnActive");
+        addLogo.classList.toggle("opened");
+        startMessage.classList.toggle("opened");
+        startSettings();
+        runningGame = setInterval(() => {
+            if (!pause) {
+                updateHorizontalPosition(enemy);
+                updateUserPosition(user);
+                updateUserPosition(shield);
+                updateBulletPosition();
+                drawElements();
+                displayStatistic();
+            }
+        }, 10);
+    } 
+}
+//function that stops the game
+let stopGame = () => {
+    if (gameProcess) {
+        clearInterval(runningGame);
+        startGame.classList.toggle("btnActive");
+        resetGame.classList.toggle("btnActive");
+        addLogo.classList.toggle("opened");
+        startMessage.classList.toggle("opened");
+        gameProcess = false;
+        clearCanvas();
+    }
+}
+//listens click events on startGame button and runs function game()
+startGame.onclick = () => {
+    game();
+}
+//listens click events on resetGame button and runs function stopGame()
+resetGame.onclick = () => {
+    stopGame();
+}
+//function contains all start settings and variable values
 const startSettings = () => {
     enemy.x0 = 684;
     enemy.y0 = 76;
@@ -76,13 +80,17 @@ const startSettings = () => {
     user.y0 = 833;
     shield.x0 = 684;
     shield.y0 = 734;
+    pause = false;
+    removeAllBullets();
+    drawElements();
+    setTimeout(addEnemyBullet, 3000 );
 }
-
+//function displays game statistic on the page
 let displayStatistic = () => {
     playerScores.textContent = scores;
     playerLifes.textContent = lifes;
 }
-
+//function creates enemy bullet instanses, add them into the bullet array and draw them in the canvas
 const addEnemyBullet = () => {
     if (allEnemyBullets.length < 2) {
         let bullet = new Bullet(enemy.x0 + enemy.width / 2, enemy.y0 + enemy.height / 2, 10, 15, "#D40B27", ctx);
@@ -90,7 +98,11 @@ const addEnemyBullet = () => {
         allEnemyBullets.push(bullet); 
     }
 }
-
+//function removes all bullets from the screen
+const removeAllBullets = () => {
+    allEnemyBullets.splice(0, allEnemyBullets.length);
+}
+//function draws all game elements on the screen
 const drawElements = () => {
     clearCanvas();
     ctx.drawImage(backgroundImage, 0, 0, canvasWidth, canvasHeight);
@@ -101,11 +113,11 @@ const drawElements = () => {
         allEnemyBullets[i].draw();
     }
 }
-
+//completely clears the canvas 
 const clearCanvas = () => {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 }
-
+//function receives an element as an argument and updates its horisontal position 
 const updateHorizontalPosition = (element) => {
     if (element.leftSwitch) {
         if ((element.x0 + element.width) < canvasWidth) {
@@ -123,7 +135,7 @@ const updateHorizontalPosition = (element) => {
         }
     }
 }
-
+//function updates enemy bullets positions
 const updateBulletPosition = () => {
     for (let i = 0; i < allEnemyBullets.length; i++) {
         if ((allEnemyBullets[i].y0 + allEnemyBullets[i].height) <= canvas.height) {
@@ -144,10 +156,12 @@ const updateBulletPosition = () => {
             allEnemyBullets[i].x0 = enemy.x0 + enemy.width / 2;
             allEnemyBullets[i].y0 = enemy.y0 + enemy.height / 2;
             lifes -= 1;
+            pause = true;
+            setTimeout(startSettings, 2000);
         }
     }
 }
-
+//function receives an element (user ship or shield) as an argument and updates its position 
 const updateUserPosition = (element) => {
     if ((element.rightMove) & ((element.x0 + element.width) < canvasWidth)) {
         element.x0 += element.speed;
@@ -156,7 +170,8 @@ const updateUserPosition = (element) => {
         element.x0 -= element.speed;
     }
 }
-
+//function checks collisions between two elements
+// and returns true (if there is a collision) or false (if there is not any collision)
 const collideEvent = (firstElement, secondElement) => {
     if (firstElement.x0 > (secondElement.x0 + secondElement.width) || secondElement.x0 > (firstElement.x0 + firstElement.width) )
         return false;
@@ -164,7 +179,7 @@ const collideEvent = (firstElement, secondElement) => {
         return false;
     return true;
 }
-
+//listens and handles key down events
 window.addEventListener("keydown", (event) => {
     if (event.key === 'd') {
         user.leftMove = false;
@@ -180,7 +195,7 @@ window.addEventListener("keydown", (event) => {
         shield.leftMove = true;
     }
 });
-
+//listens and handles key up events
 window.addEventListener("keyup", (event) => {
     if (event.key === 'd') {
         user.leftMove = false;
@@ -195,38 +210,5 @@ window.addEventListener("keyup", (event) => {
         shield.rightMove = false;
         shield.leftMove = false;
     }
-}); 
+});
 
-
-startGame.onclick = () => {
-    if (!game) {
-        game = true;
-        startGame.classList.toggle("btnActive");
-        resetGame.classList.toggle("btnActive");
-        addLogo.classList.toggle("opened");
-        startMessage.classList.toggle("opened");
-        startSettings();
-        drawElements();
-        addEnemyBullet();
-        runningGame = setInterval(() => {
-            updateHorizontalPosition(enemy);
-            updateUserPosition(user);
-            updateUserPosition(shield);
-            updateBulletPosition();
-            drawElements();
-            displayStatistic();
-        }, 10);
-    }
-}
-
-resetGame.onclick = () => {
-    if (game) {
-        clearInterval(runningGame);
-        startGame.classList.toggle("btnActive");
-        resetGame.classList.toggle("btnActive");
-        addLogo.classList.toggle("opened");
-        startMessage.classList.toggle("opened");
-        game = false;
-        clearCanvas();
-    }
-}
