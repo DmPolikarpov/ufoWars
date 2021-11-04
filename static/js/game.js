@@ -64,6 +64,16 @@ let stopGame = () => {
         clearCanvas();
     }
 }
+//functionchecks number of user lifes and stops the game when user lost
+let gameOver = () => {
+    if(lifes === 0) {
+        removeAllBullets();
+        clearInterval(runningGame);
+        clearCanvas();
+        setTimeout(stopGame, 5000);
+    }
+}
+
 //listens click events on startGame button and runs function game()
 startGame.onclick = () => {
     game();
@@ -92,7 +102,7 @@ let displayStatistic = () => {
 }
 //function creates enemy bullet instanses, add them into the bullet array and draw them in the canvas
 const addEnemyBullet = () => {
-    if (allEnemyBullets.length < 2) {
+    if (allEnemyBullets.length < 2 && lifes !== 0) {
         let bullet = new Bullet(enemy.x0 + enemy.width / 2, enemy.y0 + enemy.height / 2, 10, 15, "#D40B27", ctx);
         bullet.draw();
         allEnemyBullets.push(bullet); 
@@ -157,7 +167,10 @@ const updateBulletPosition = () => {
             allEnemyBullets[i].y0 = enemy.y0 + enemy.height / 2;
             lifes -= 1;
             pause = true;
-            setTimeout(startSettings, 2000);
+            setTimeout(() => {
+                startSettings();
+                gameOver();
+            }, 2000);
         }
     }
 }
