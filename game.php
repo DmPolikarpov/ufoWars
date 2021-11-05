@@ -46,6 +46,7 @@
                 <img id="user-ufo" src="static/images/ufo.png">
                 <img id="enemy-ufo" src="static/images/enemy.png">
                 <img id="shield" src="static/images/shield.png">
+                <img id="object" src="static/images/object.png">
                 Please, update your browser.
             </canvas>
             <button id="btnNewGame" class="btnStyle btnActive">New game</button>

@@ -7,6 +7,7 @@ const backgroundImage = document.getElementById("background-image");
 const userUfo = document.getElementById("user-ufo");
 const enemyUfo = document.getElementById("enemy-ufo");
 const shieldElement = document.getElementById("shield");
+const newObject = document.getElementById("object");
 const addLogo = document.getElementsByClassName("addLogo")[0];
 const startMessage = document.getElementsByClassName("start-message")[0];
 const playerScores = document.getElementById("score-value");
@@ -28,6 +29,7 @@ let runningGame;
 let pause;
 let allEnemyBullets = [];
 let allUserBullets = [];
+let objectsGroup = [];
 let level;
 let scores;
 let lifes;
@@ -49,6 +51,9 @@ let game = () => {
         runningGame = setInterval(() => {
             if (!pause) {
                 updateHorizontalPosition(enemy);
+                for (let i = 0; i < objectsGroup.length; i++) {
+                    updateHorizontalPosition(objectsGroup[i]);
+                }
                 updateUserPosition(user);
                 updateUserPosition(shield);
                 updateEnemyBulletPosition();
@@ -114,11 +119,10 @@ const startSettings = () => {
     user.y0 = 833;
     shield.x0 = 684;
     shield.y0 = 734;
-    //nextLevel();
     pause = false;
     removeAllBullets();
     drawElements();
-    setTimeout(addEnemyBullet, 3000 );
+    setTimeout(addEnemyBullet, 2000 );
 }
 //function returns random number in a range between 0 and canvas.width
 let randomX = () => {
@@ -130,7 +134,7 @@ let displayStatistic = () => {
     playerLifes.textContent = lifes;
     strikes.textContent = hits;
 }
-//function creates enemy bullet instanses, add them into the enemy bullet array and draw them in the canvas
+//function creates enemy bullet instanses, add them into the enemy bullet array
 const addEnemyBullet = () => {
     if (allEnemyBullets.length < 2 && lifes !== 0) {
         let bullet = new Bullet(enemy.x0 + enemy.width / 2, enemy.y0 + enemy.height / 2, 10, 15, "#D40B27", ctx);
@@ -138,12 +142,26 @@ const addEnemyBullet = () => {
     }
     nextLevel();
 }
-//function creates user bullet instanses, add them into the user bullet array and draw them in the canvas 
+//function creates user bullet instanses, add them into the user bullet array 
 const addUserBullet = () => {
     if (allUserBullets.length < 2 && hits !== 3) {
         let bullet = new Bullet(user.x0 + user.width / 2, user.y0 + user.height / 2, 10, 15, "#2cee25", ctx);
         allUserBullets.push(bullet);
     }
+}
+//function creates new object instanses, add them into the objectGroup array
+const addNewObject = () => {
+    if (objectsGroup.length < 1 && level === 2) {
+        let object = new Element(canvasWidth/2, canvasHeight/3, 174, 47, newObject.src);
+        object.speed = 1;
+        leftSwitch = false;
+        rightSwitch = true;
+        objectsGroup.push(object); 
+    } else if (objectsGroup.length < 2 && level === 3) {
+        let object = new Element(canvasWidth/3, canvasHeight/2, 174, 47, newObject.src);
+        object.speed = 1.5;
+        objectsGroup.push(object); 
+    };
 }
 //function removes all bullets from the screen
 const removeAllBullets = () => {
@@ -162,6 +180,9 @@ const drawElements = () => {
     }
     for (let i = 0; i < allUserBullets.length; i++) {
         allUserBullets[i].draw();
+    }
+    for (let i = 0; i < objectsGroup.length; i++) {
+        ctx.drawImage(objectsGroup[i], objectsGroup[i].x0, objectsGroup[i].y0, objectsGroup[i].width, objectsGroup[i].height); 
     }
 }
 //completely clears the canvas 
@@ -229,6 +250,7 @@ const updateUserBulletPosition = () => {
         if (collideEvent(allUserBullets[i], enemy)) {
             addScores();
             level += 1;
+            addNewObject();
             strikeProcess();
         }
         if (allUserBullets[i].y0 > 0) {
@@ -314,19 +336,19 @@ let nextLevel = () => {
             for (let i = 0; i < allEnemyBullets.length; i++) {
                 allEnemyBullets[i].speed = 2;
             };
-            enemy.speed = 3;
+            enemy.speed = 2;
             break;
         case 2:
             for (let i = 0; i < allEnemyBullets.length; i++) {
-                allEnemyBullets[i].speed = 3;
+                allEnemyBullets[i].speed = 2;
             };
-            enemy.speed = 4;
+            enemy.speed = 2;
             break;
         case 3:
             for (let i = 0; i < allEnemyBullets.length; i++) {
-                allEnemyBullets[i].speed = 4;
+                allEnemyBullets[i].speed = 2;
             };
-            enemy.speed = 5;
+            enemy.speed = 2;
             break;
         default:
             break;
