@@ -69,16 +69,29 @@ let stopGame = () => {
         clearCanvas();
     }
 }
-//functionchecks number of user lifes and stops the game when user lost
+//function takes a string of the message and font size as parameters and displays it on the screen
+let screenMessage = (msg, size) => {
+    clearCanvas();
+    ctx.font = size + "px Brush Script MT";
+    ctx.fillStyle = "red";
+    ctx.textAlign = "center";
+    ctx.fillText(msg, canvasWidth/2, canvasHeight/2);
+}
+//function checks number of user lifes and stops the game when user lost
 let gameOver = () => {
     if(lifes === 2) {
         removeAllBullets();
         clearInterval(runningGame);
-        clearCanvas();
-        ctx.font = "150px Brush Script MT";
-        ctx.fillStyle = "red";
-        ctx.textAlign = "center";
-        ctx.fillText("GAME OVER", canvasWidth/2, canvasHeight/2);
+        screenMessage("GAME OVER", 150);
+        setTimeout(stopGame, 5000);
+    }
+}
+//funtion checks number of user strikes and stops the game when user won
+let gameWon = () => {
+    if(hits === 3) {
+        removeAllBullets();
+        clearInterval(runningGame);
+        screenMessage("YOU WON", 170);
         setTimeout(stopGame, 5000);
     }
 }
@@ -119,7 +132,7 @@ const addEnemyBullet = () => {
 }
 //function creates user bullet instanses, add them into the user bullet array and draw them in the canvas 
 const addUserBullet = () => {
-    if (allUserBullets.length < 2) {
+    if (allUserBullets.length < 2 && hits !== 3) {
         let bullet = new Bullet(user.x0 + user.width / 2, user.y0 + user.height / 2, 10, 15, "#2cee25", ctx);
         allUserBullets.push(bullet);
     }
@@ -153,6 +166,7 @@ const strikeProcess = () => {
     setTimeout(() => {
         startSettings();
         gameOver();
+        gameWon();
     }, 2000);
 }
 //function receives an element as an argument and updates its horisontal position 
