@@ -26,6 +26,7 @@ let gameProcess = false;
 let runningGame;
 let pause;
 let allEnemyBullets = [];
+let allUserBullets = [];
 let scores;
 let lifes;
 
@@ -45,7 +46,8 @@ let game = () => {
                 updateHorizontalPosition(enemy);
                 updateUserPosition(user);
                 updateUserPosition(shield);
-                updateBulletPosition();
+                updateEnemyBulletPosition();
+                updateUserBulletPosition();
                 drawElements();
                 displayStatistic();
             }
@@ -66,10 +68,14 @@ let stopGame = () => {
 }
 //functionchecks number of user lifes and stops the game when user lost
 let gameOver = () => {
-    if(lifes === 0) {
+    if(lifes === 2) {
         removeAllBullets();
         clearInterval(runningGame);
         clearCanvas();
+        ctx.font = "150px Brush Script MT";
+        ctx.fillStyle = "red";
+        ctx.textAlign = "center";
+        ctx.fillText("GAME OVER", canvasWidth/2, canvasHeight/2);
         setTimeout(stopGame, 5000);
     }
 }
@@ -100,12 +106,19 @@ let displayStatistic = () => {
     playerScores.textContent = scores;
     playerLifes.textContent = lifes;
 }
-//function creates enemy bullet instanses, add them into the bullet array and draw them in the canvas
+//function creates enemy bullet instanses, add them into the enemy bullet array and draw them in the canvas
 const addEnemyBullet = () => {
-    if (allEnemyBullets.length < 2 && lifes !== 0) {
+    if (allEnemyBullets.length < 2 && lifes !== 2) {
         let bullet = new Bullet(enemy.x0 + enemy.width / 2, enemy.y0 + enemy.height / 2, 10, 15, "#D40B27", ctx);
-        bullet.draw();
         allEnemyBullets.push(bullet); 
+    }
+}
+//function creates user bullet instanses, add them into the user bullet array and draw them in the canvas 
+const addUserBullet = () => {
+    if (allUserBullets.length < 2) {
+        let bullet = new Bullet(user.x0 + user.width / 2, user.y0 + user.height / 2, 10, 15, "#2cee25", ctx);
+        allUserBullets.push(bullet);
+        console.log("okay");
     }
 }
 //function removes all bullets from the screen
@@ -121,6 +134,9 @@ const drawElements = () => {
     ctx.drawImage(shield, shield.x0, shield.y0, shield.width, shield.height); 
     for (let i = 0; i < allEnemyBullets.length; i++) {
         allEnemyBullets[i].draw();
+    }
+    for (let i = 0; i < allUserBullets.length; i++) {
+        allUserBullets[i].draw();
     }
 }
 //completely clears the canvas 
@@ -146,7 +162,7 @@ const updateHorizontalPosition = (element) => {
     }
 }
 //function updates enemy bullets positions
-const updateBulletPosition = () => {
+const updateEnemyBulletPosition = () => {
     for (let i = 0; i < allEnemyBullets.length; i++) {
         if ((allEnemyBullets[i].y0 + allEnemyBullets[i].height) <= canvas.height) {
             allEnemyBullets[i].y0 += allEnemyBullets[i].speed;
@@ -171,6 +187,16 @@ const updateBulletPosition = () => {
                 startSettings();
                 gameOver();
             }, 2000);
+        }
+    }
+}
+//function updates positions of user bullets
+const updateUserBulletPosition = () => {
+    for (let i = 0; i < allUserBullets.length; i++) {
+        if (allUserBullets[i].y0 > 0) {
+            allUserBullets[i].y0 -= allUserBullets[i].speed;
+        } else {
+            allUserBullets.splice(i, 1);
         }
     }
 }
@@ -206,6 +232,8 @@ window.addEventListener("keydown", (event) => {
     } else if (event.key === "ArrowLeft") {
         shield.rightMove = false;
         shield.leftMove = true;
+    } else if (event.code === "Space") {
+        addUserBullet();
     }
 });
 //listens and handles key up events
