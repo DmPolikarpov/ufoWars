@@ -79,7 +79,7 @@ let screenMessage = (msg, size) => {
 }
 //function checks number of user lifes and stops the game when user lost
 let gameOver = () => {
-    if(lifes === 2) {
+    if(lifes === 0) {
         removeAllBullets();
         clearInterval(runningGame);
         screenMessage("GAME OVER", 150);
@@ -125,7 +125,7 @@ let displayStatistic = () => {
 }
 //function creates enemy bullet instanses, add them into the enemy bullet array and draw them in the canvas
 const addEnemyBullet = () => {
-    if (allEnemyBullets.length < 2 && lifes !== 2) {
+    if (allEnemyBullets.length < 2 && lifes !== 0) {
         let bullet = new Bullet(enemy.x0 + enemy.width / 2, enemy.y0 + enemy.height / 2, 10, 15, "#D40B27", ctx);
         allEnemyBullets.push(bullet); 
     }
@@ -190,9 +190,11 @@ const updateHorizontalPosition = (element) => {
 //function updates enemy bullets positions
 const updateEnemyBulletPosition = () => {
     for (let i = 0; i < allEnemyBullets.length; i++) {
-        if ((allEnemyBullets[i].y0 + allEnemyBullets[i].height) <= canvas.height) {
+        if ((allEnemyBullets[i].y0 + allEnemyBullets[i].height) <= (canvasHeight - user.height / 3) ) {
             allEnemyBullets[i].y0 += allEnemyBullets[i].speed;
         } else {
+            scores -= 15;
+            strikeProcess();
             allEnemyBullets[i].x0 = enemy.x0 + enemy.width / 2;
             allEnemyBullets[i].y0 = enemy.y0 + enemy.height / 2;
         }
@@ -208,6 +210,7 @@ const updateEnemyBulletPosition = () => {
             allEnemyBullets[i].x0 = enemy.x0 + enemy.width / 2;
             allEnemyBullets[i].y0 = enemy.y0 + enemy.height / 2;
             lifes -= 1;
+            scores -= 10;
             strikeProcess();
         }
     }
@@ -221,9 +224,27 @@ const updateUserBulletPosition = () => {
             allUserBullets.splice(i, 1);
         }
         if (collideEvent(allUserBullets[i], enemy)) {
-            hits += 1;
+            addScores();
             strikeProcess();
         }
+        
+    }
+}
+//function calculates scores after each successful strike
+const addScores = () => {
+    hits += 1;
+    switch (hits) {
+        case 1:
+            scores += 20;
+            break;
+        case 2:
+            scores += 50;
+            break;
+        case 3:
+            scores += 100;
+            break;
+        default:
+            break;
     }
 }
 //function receives an element (user ship or shield) as an argument and updates its position 
