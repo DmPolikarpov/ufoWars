@@ -28,6 +28,7 @@ let runningGame;
 let pause;
 let allEnemyBullets = [];
 let allUserBullets = [];
+let level;
 let scores;
 let lifes;
 let hits;
@@ -38,6 +39,7 @@ let game = () => {
         scores = 0;
         lifes = 3;
         hits = 0;
+        level = 1;
         gameProcess = true;
         startGame.classList.toggle("btnActive");
         resetGame.classList.toggle("btnActive");
@@ -106,16 +108,21 @@ resetGame.onclick = () => {
 }
 //function contains all start settings and variable values
 const startSettings = () => {
-    enemy.x0 = 684;
+    enemy.x0 = randomX();
     enemy.y0 = 76;
     user.x0 = 684;
     user.y0 = 833;
     shield.x0 = 684;
     shield.y0 = 734;
+    //nextLevel();
     pause = false;
     removeAllBullets();
     drawElements();
     setTimeout(addEnemyBullet, 3000 );
+}
+//function returns random number in a range between 0 and canvas.width
+let randomX = () => {
+    return Math.floor(Math.random() * (6 * canvasWidth / 7 ));
 }
 //function displays game statistic on the page
 let displayStatistic = () => {
@@ -129,6 +136,7 @@ const addEnemyBullet = () => {
         let bullet = new Bullet(enemy.x0 + enemy.width / 2, enemy.y0 + enemy.height / 2, 10, 15, "#D40B27", ctx);
         allEnemyBullets.push(bullet); 
     }
+    nextLevel();
 }
 //function creates user bullet instanses, add them into the user bullet array and draw them in the canvas 
 const addUserBullet = () => {
@@ -218,16 +226,16 @@ const updateEnemyBulletPosition = () => {
 //function updates positions of user bullets
 const updateUserBulletPosition = () => {
     for (let i = 0; i < allUserBullets.length; i++) {
+        if (collideEvent(allUserBullets[i], enemy)) {
+            addScores();
+            level += 1;
+            strikeProcess();
+        }
         if (allUserBullets[i].y0 > 0) {
             allUserBullets[i].y0 -= allUserBullets[i].speed;
         } else {
             allUserBullets.splice(i, 1);
-        }
-        if (collideEvent(allUserBullets[i], enemy)) {
-            addScores();
-            strikeProcess();
-        }
-        
+        }      
     }
 }
 //function calculates scores after each successful strike
@@ -299,4 +307,29 @@ window.addEventListener("keyup", (event) => {
         shield.leftMove = false;
     }
 });
+//function pushes the game into the next level
+let nextLevel = () => {
+    switch (level) {
+        case 1:
+            for (let i = 0; i < allEnemyBullets.length; i++) {
+                allEnemyBullets[i].speed = 2;
+            };
+            enemy.speed = 3;
+            break;
+        case 2:
+            for (let i = 0; i < allEnemyBullets.length; i++) {
+                allEnemyBullets[i].speed = 3;
+            };
+            enemy.speed = 4;
+            break;
+        case 3:
+            for (let i = 0; i < allEnemyBullets.length; i++) {
+                allEnemyBullets[i].speed = 4;
+            };
+            enemy.speed = 5;
+            break;
+        default:
+            break;
+    }
+}
 

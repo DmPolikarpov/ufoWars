@@ -4,7 +4,7 @@ class Bullet {
     width = 0;
     height = 0;
     color = "#FFFFFF";
-    speed = 3;
+    speed = 2;
 
     constructor(x0, y0, width, height, color, context) {
         this.color = color;
