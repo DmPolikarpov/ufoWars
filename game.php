@@ -35,7 +35,7 @@
                 <h3>Best Score: <span></span></h3>
             </div>
             <div id="hits">
-                <h3>Hits: <span></span></h3>
+                <h3>Hits: <span id="hits-value"></span></h3>
             </div>
             <div class="addLogo opened"></div>
             <div class="start-message opened">

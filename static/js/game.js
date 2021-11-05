@@ -11,6 +11,7 @@ const addLogo = document.getElementsByClassName("addLogo")[0];
 const startMessage = document.getElementsByClassName("start-message")[0];
 const playerScores = document.getElementById("score-value");
 const playerLifes = document.getElementById("attempts-value");
+const strikes = document.getElementById("hits-value");
 //define sizes of canvas
 canvas.width = 1500;
 canvas.height = 1000;
@@ -29,12 +30,14 @@ let allEnemyBullets = [];
 let allUserBullets = [];
 let scores;
 let lifes;
+let hits;
 
 //function that runs the game
 let game = () => {
     if(!gameProcess) {
         scores = 0;
         lifes = 3;
+        hits = 0;
         gameProcess = true;
         startGame.classList.toggle("btnActive");
         resetGame.classList.toggle("btnActive");
@@ -105,6 +108,7 @@ const startSettings = () => {
 let displayStatistic = () => {
     playerScores.textContent = scores;
     playerLifes.textContent = lifes;
+    strikes.textContent = hits;
 }
 //function creates enemy bullet instanses, add them into the enemy bullet array and draw them in the canvas
 const addEnemyBullet = () => {
@@ -118,12 +122,12 @@ const addUserBullet = () => {
     if (allUserBullets.length < 2) {
         let bullet = new Bullet(user.x0 + user.width / 2, user.y0 + user.height / 2, 10, 15, "#2cee25", ctx);
         allUserBullets.push(bullet);
-        console.log("okay");
     }
 }
 //function removes all bullets from the screen
 const removeAllBullets = () => {
     allEnemyBullets.splice(0, allEnemyBullets.length);
+    allUserBullets.splice(0, allUserBullets.length);
 }
 //function draws all game elements on the screen
 const drawElements = () => {
@@ -142,6 +146,14 @@ const drawElements = () => {
 //completely clears the canvas 
 const clearCanvas = () => {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+}
+//function pauses the game after successful shoots and specify the settings
+const strikeProcess = () => {
+    pause = true;
+    setTimeout(() => {
+        startSettings();
+        gameOver();
+    }, 2000);
 }
 //function receives an element as an argument and updates its horisontal position 
 const updateHorizontalPosition = (element) => {
@@ -182,11 +194,7 @@ const updateEnemyBulletPosition = () => {
             allEnemyBullets[i].x0 = enemy.x0 + enemy.width / 2;
             allEnemyBullets[i].y0 = enemy.y0 + enemy.height / 2;
             lifes -= 1;
-            pause = true;
-            setTimeout(() => {
-                startSettings();
-                gameOver();
-            }, 2000);
+            strikeProcess();
         }
     }
 }
@@ -197,6 +205,10 @@ const updateUserBulletPosition = () => {
             allUserBullets[i].y0 -= allUserBullets[i].speed;
         } else {
             allUserBullets.splice(i, 1);
+        }
+        if (collideEvent(allUserBullets[i], enemy)) {
+            hits += 1;
+            strikeProcess();
         }
     }
 }
