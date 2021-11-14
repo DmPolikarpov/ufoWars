@@ -19,7 +19,7 @@ let errorMessage = "";
 
 
 //closes popup window
-function closeWindow(element) {
+let closeWindow = (element) => {
     element.style.display = "none";
     errorMessage = "";
     errorElement.textContent = "";
@@ -30,27 +30,24 @@ function closeWindow(element) {
 
 
 //email validation
-function isMail(mail) {
+let isMail = (mail) => {
     var mailPattern = /^([a-zA-Z0-9+-._])+\@(([a-zA-Z-.])+\.)+([a-zA-Z]{2,6})+$/;
     return mailPattern.test(mail);
 }
 
 //phone number validation
-function isPhone(phone) {
+let isPhone = (phone) => {
     var numberPattern = /^\+([0-9]{6,})$/;
     return numberPattern.test(phone);
 }
 
 //password validation
-function isPasswordValid(pass, passConf) {
-    if (pass != passConf) {
-        return false;
-    }
-    return true;
+let isPasswordValid = (pass, passConf) => {
+    return pass != passConf ? false : true;
 }
 
 //checks missing fields
-function checkFields() {
+let checkFields = () => {
     if (regUsername.value === "" || 
         email.value === "" ||
         phoneNumber.value === "" ||
@@ -61,42 +58,8 @@ function checkFields() {
         }
     return true;
 }
-
-
-/******* events listening and processing *******/
-
-
-//opens popup window with registration form
-function openWindow(element) {
-    element.addEventListener("click", function() {
-        if (element.classList[0] === "sign-up") {
-            regWindow.style.display = "block";
-        } else if (element.classList[0] === "sign-in") {
-            loginWindow.style.display = "block";
-        }
-    });
-}
-for(var i=0; i<btnSignUp.length; i++) {
-    openWindow(btnSignUp[i]);
-}
-for(var i=0; i<btnSignIn.length; i++) {
-    openWindow(btnSignIn[i]);
-}
-
-
-//listens and processes click events for close button in registration form
-regBtnClose.addEventListener("click", function() {
-    closeWindow(regWindow);
-});
-
-//listens and processes click events for close button in login form
-loginBtnClose.addEventListener("click", function() {
-    closeWindow(loginWindow);
-});
-
-
-//process submit event in sign up form
-regBtnSubmit.addEventListener("click", function() {
+//displays registration form validation errors
+let showRegistrationErrors = () => {
     errorMessage = "";
     if (checkFields() === false) {
         errorMessage += " fill all fields; ";
@@ -111,12 +74,57 @@ regBtnSubmit.addEventListener("click", function() {
         errorMessage += " check your password; ";
     }
     errorElement.textContent = errorMessage;
+}
+//checks if there are errors or not and returns true or false
+let isError = () => {
+    return errorMessage ? true : false;
+}
+
+
+/******* events listening and processing *******/
+
+
+//opens popup window with registration form
+function openWindow(element) {
+    element.addEventListener("click", () => {
+        if (element.classList[0] === "sign-up") {
+            regWindow.style.display = "block";
+        } else if (element.classList[0] === "sign-in") {
+            loginWindow.style.display = "block";
+        }
+    });
+}
+
+//allows to open forms using different buttons
+for (const element of btnSignUp) {
+    openWindow(element);
+}
+for (const element of btnSignIn) {
+    openWindow(element);
+}
+
+//listens and processes click events for close button in registration form
+regBtnClose.addEventListener("click", () => {
+    closeWindow(regWindow);
+});
+
+//listens and processes click events for close button in login form
+loginBtnClose.addEventListener("click", () => {
+    closeWindow(loginWindow);
+});
+
+
+//process submit event in sign up form
+regBtnSubmit.addEventListener("click", () => {
+    showRegistrationErrors();
+    if (isError()) {
+        alert("errors");
+    }
 })
 
 //process submit event in login form
-loginBtnSubmit.addEventListener("click", function() {
-    errorMessage = "";
-    
+loginBtnSubmit.addEventListener("click", () => {
+    errorMessage = "";  
     errorElement.textContent = errorMessage;
 })
 
