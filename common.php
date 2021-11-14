@@ -155,7 +155,7 @@
         echo '</div>';
         echo '<h3 class="footer-item age-limit">12+</h3>';
         echo '</footer>';
-        echo '<script src="static/js/popup-windows.js"></script>';
+        echo '<script src="static/js/form-processing.js"></script>';
         if ($pageName == "game") {
             echo '<script src="static/js/element.js"></script>';
             echo '<script src="static/js/bullet.js"></script>';
