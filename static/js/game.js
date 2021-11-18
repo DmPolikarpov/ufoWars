@@ -39,16 +39,13 @@ let hits;
 
 //function that runs the game
 let game = () => {
-    if(!gameProcess) {
         scores = 0;
         lifes = 3;
         hits = 0;
         level = 1;
+        user.setSpeed(3);
+        shield.setSpeed(3);
         gameProcess = true;
-        startGame.classList.toggle("btnActive");
-        resetGame.classList.toggle("btnActive");
-        addLogo.classList.toggle("opened");
-        startMessage.classList.toggle("opened");
         startSettings();
         runningGame = setInterval(() => {
             if (!pause) {
@@ -64,7 +61,7 @@ let game = () => {
                 displayStatistic();
             }
         }, 10);
-    } 
+    
 }
 //function that stops the game
 let stopGame = () => {
@@ -107,10 +104,25 @@ let gameWon = () => {
         setTimeout(stopGame, 5000);
     }
 }
-
 //listens click events on startGame button and runs function game()
 startGame.onclick = () => {
-    game();
+    if(!gameProcess) {
+        let counter = 3;
+        let showAnimation;
+        startGame.classList.toggle("btnActive");
+        resetGame.classList.toggle("btnActive");
+        addLogo.classList.toggle("opened");
+        startMessage.classList.toggle("opened");
+        showAnimation = setInterval(() => {
+            if(counter > 0) {
+                screenMessage(counter, 500);
+                counter--;
+            } else {
+                clearInterval(showAnimation);
+                game();
+            }
+        }, 1000);
+    }
 }
 //listens click events on resetGame button and runs function stopGame()
 resetGame.onclick = () => {
@@ -211,21 +223,21 @@ let nextLevel = () => {
     switch (level) {
         case 1:
             for (let i = 0; i < allEnemyBullets.length; i++) {
-                allEnemyBullets[i].speed = 1;
+                allEnemyBullets[i].setSpeed(1);
             };
-            enemy.speed = 1;
+            enemy.setSpeed(1);
             break;
         case 2:
             for (let i = 0; i < allEnemyBullets.length; i++) {
-                allEnemyBullets[i].speed = 2;
+                allEnemyBullets[i].setSpeed(2);
             };
-            enemy.speed = 2;
+            enemy.setSpeed(2);
             break;
         case 3:
             for (let i = 0; i < allEnemyBullets.length; i++) {
-                allEnemyBullets[i].speed = 3;
+                allEnemyBullets[i].setSpeed(3);
             };
-            enemy.speed = 3;
+            enemy.setSpeed(3);
             break;
         default:
             break;

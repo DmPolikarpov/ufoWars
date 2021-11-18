@@ -1,4 +1,3 @@
-const regBtnSubmit = document.getElementById("reg-form-submit");
 const loginBtnSubmit = document.getElementById("login-form-submit");
 let email = document.getElementById("txtEmail");
 let phoneNumber = document.getElementById("txtPhone");
@@ -16,15 +15,6 @@ const regBtnClose = document.getElementById("reg-closeWindow");
 const loginBtnClose = document.getElementById("login-closeWindow");
 let errorElement = document.getElementsByClassName("error-message")[0];
 let errorMessage = "";
-
-
-//closes popup window
-let closeWindow = (element) => {
-    element.style.display = "none";
-    errorMessage = "";
-    errorElement.textContent = "";
-}
-
 
 /******* functions for forms validation *******/
 
@@ -73,11 +63,28 @@ let showRegistrationErrors = () => {
     if (isPasswordValid(regPassword.value, passwordConf.value) === false) {
         errorMessage += " check your password; ";
     }
-    errorElement.textContent = errorMessage;
 }
 //checks if there are errors or not and returns true or false
 let isError = () => {
     return errorMessage ? true : false;
+}
+//checks if such user exists
+let userExists = (email) => {
+    if(localStorage.getItem(email) != null) {
+        return true; 
+    } 
+    return false;
+}
+//checks if such username exists
+let usernameExists = (username) => {
+    for(let i = 0; i < localStorage.length; i++) {
+        let email = localStorage.key(i);
+        let user = JSON.parse(localStorage.getItem(email));
+        if(user.username === username) {
+            return true;
+        }
+    }
+    return false;
 }
 
 
@@ -85,7 +92,7 @@ let isError = () => {
 
 
 //opens popup window with registration form
-function openWindow(element) {
+let openWindow = (element) => {
     element.addEventListener("click", () => {
         if (element.classList[0] === "sign-up") {
             regWindow.style.display = "block";
@@ -93,6 +100,13 @@ function openWindow(element) {
             loginWindow.style.display = "block";
         }
     });
+}
+
+//closes popup window
+let closeWindow = (element) => {
+    element.style.display = "none";
+    errorMessage = "";
+    errorElement.textContent = "";
 }
 
 //allows to open forms using different buttons
@@ -113,18 +127,39 @@ loginBtnClose.addEventListener("click", () => {
     closeWindow(loginWindow);
 });
 
+//adds new user into the local storage
+let addNewUser = () => {
+    let newUser = {
+        "username": regUsername.value,
+        "email": email.value,
+        "phoneNumber": phoneNumber.value,
+        "gender": document.getElementById("sltGender").value,
+        "password": regPassword.value,
+        "bestResult": 0
+    }
+    localStorage.setItem(newUser.email, JSON.stringify(newUser));
+    localStorage.getItem(newUser.email) ? alert("A new user was added successfully") : alert("Oppss... it is not good... try again");
+}
+
 
 //process submit event in sign up form
-regBtnSubmit.addEventListener("click", () => {
+let submitRegForm = () => {
     showRegistrationErrors();
     if (isError()) {
-        alert("errors");
+        errorElement.textContent = errorMessage;
     }
-})
+    if (userExists(email.value)) {
+        alert("User with the same email already exists");
+    } else if (usernameExists(regUsername.value)) {
+        alert("User with the same username already exists");
+    } else {
+        addNewUser();
+    }
+}
 
 //process submit event in login form
-loginBtnSubmit.addEventListener("click", () => {
+let submitLoginForm = () => {
     errorMessage = "";  
     errorElement.textContent = errorMessage;
-})
+}
 

@@ -19,4 +19,8 @@ class Bullet {
         this.context.fillStyle = this.color;
         this.context.fillRect(this.x0, this.y0, this.width, this.height);
     }
+
+    setSpeed(param) {
+        this.speed = param;
+    }
 }

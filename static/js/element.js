@@ -5,7 +5,7 @@ class Element extends Image {
     height = 0;
     leftSwitch = true;
     rightSwitch = false;
-    speed = 3;
+    speed = 1;
     rightMove = false;
     leftMove = false;
 
@@ -16,6 +16,10 @@ class Element extends Image {
         this.y0 = y0;
         this.width = width;
         this.height = height;
+    }
+
+    setSpeed(param) {
+        this.speed = param;
     }
 
 }
