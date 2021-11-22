@@ -129,13 +129,13 @@
         echo '<h1>Sign up Form</h1>';
         echo '<p class="error-message required-field"></p>';
         echo '<form onsubmit="return submitLoginForm();">';
-        echo '<label for="txtUsername">Username:</label>';
-        echo '<input type="text" id="login-txtUsername" required name="username">';
+        echo '<label for="txtEmail">Email:</label>';
+        echo '<input type="text" id="login-txtEmail" required name="email">';
         echo '<br>';
         echo '<label for="txtPassword">Password:</label>';
         echo '<input type="password" id="login-txtPassword" required name="password">';
         echo '<br>';
-        echo '<input type="checkbox" id="savePass" required name="savePass">';
+        echo '<input type="checkbox" id="savePass" name="savePass">';
         echo '<label id="savePassLabel" for="savePass">Save password</label>';
         echo '<br>';
         echo '<input id="login-form-submit" class="btnSubmit" type="submit" value="submit">';

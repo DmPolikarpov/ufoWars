@@ -5,7 +5,7 @@ let regPassword = document.getElementById("reg-txtPassword");
 let loginPassword = document.getElementById("login-txtPassword");
 let passwordConf = document.getElementById("txtPassConfirm");
 let regUsername = document.getElementById("reg-txtUsername");
-let loginUsername = document.getElementById("login-txtUsername");
+let loginEmail = document.getElementById("login-txtEmail");
 let chkAge = document.getElementById("chkAge");
 const btnSignUp = document.getElementsByClassName("sign-up");
 const btnSignIn = document.getElementsByClassName("sign-in");
@@ -147,19 +147,29 @@ let submitRegForm = () => {
     showRegistrationErrors();
     if (isError()) {
         errorElement.textContent = errorMessage;
-    }
-    if (userExists(email.value)) {
-        alert("User with the same email already exists");
-    } else if (usernameExists(regUsername.value)) {
-        alert("User with the same username already exists");
     } else {
-        addNewUser();
+        if (userExists(email.value)) {
+            alert("User with the same email already exists");
+        } else if (usernameExists(regUsername.value)) {
+            alert("User with the same username already exists");
+        } else {
+            addNewUser();
+        }
     }
 }
 
 //process submit event in login form
 let submitLoginForm = () => {
-    errorMessage = "";  
-    errorElement.textContent = errorMessage;
+    let user = {};
+    if (userExists(loginEmail.value)) {
+        user = JSON.parse(localStorage.getItem(loginEmail.value));
+        if (user && user.password === loginPassword.value) {
+            alert("How did you know?");
+        } else {
+            alert("check your password");
+        }
+    } else {
+        alert("check your email address");
+    }
 }
 
