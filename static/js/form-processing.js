@@ -13,11 +13,24 @@ const regWindow = document.getElementById("registration-window");
 const loginWindow = document.getElementById("login-window");
 const regBtnClose = document.getElementById("reg-closeWindow");
 const loginBtnClose = document.getElementById("login-closeWindow");
+let signOption = document.getElementById("sign-options");
 let errorElement = document.getElementsByClassName("error-message")[0];
 let errorMessage = "";
 
-/******* functions for forms validation *******/
+//if a session is open this function hides "signUp" and "signIn" buttons and shows username of the current user and "signOut" button
+let showCurrentUserSession = () => {
+    if (sessionStorage.currentUser != undefined) {
+        signOption.innerHTML = '<span>Hello, ' + sessionStorage.currentUser + '</span><span class="sign-out">Sign Out</span>';
+        const btnSignOut = document.getElementsByClassName("sign-out")[0];
+        btnSignOut.addEventListener("click", () => {
+            sessionStorage.removeItem("currentUser");
+            location.reload();
+        })
+    } 
+}
+showCurrentUserSession();
 
+/******* functions for forms validation *******/
 
 //email validation
 let isMail = (mail) => {
@@ -95,6 +108,7 @@ let usernameExists = (username) => {
 let openWindow = (element) => {
     element.addEventListener("click", () => {
         if (element.classList[0] === "sign-up") {
+            alert("okay");
             regWindow.style.display = "block";
         } else if (element.classList[0] === "sign-in") {
             loginWindow.style.display = "block";
@@ -141,6 +155,8 @@ let addNewUser = () => {
     localStorage.getItem(newUser.email) ? alert("A new user was added successfully") : alert("Oppss... it is not good... try again");
 }
 
+//closes a session
+
 
 //process submit event in sign up form
 let submitRegForm = () => {
@@ -154,6 +170,7 @@ let submitRegForm = () => {
             alert("User with the same username already exists");
         } else {
             addNewUser();
+            closeWindow(regWindow);
         }
     }
 }
@@ -164,7 +181,9 @@ let submitLoginForm = () => {
     if (userExists(loginEmail.value)) {
         user = JSON.parse(localStorage.getItem(loginEmail.value));
         if (user && user.password === loginPassword.value) {
-            alert("How did you know?");
+            sessionStorage.currentUser = user.username;
+            showCurrentUserSession();
+            closeWindow(loginWindow);
         } else {
             alert("check your password");
         }

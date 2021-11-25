@@ -47,7 +47,7 @@
         echo '<img src="static/images/logo.png" alt="logotype of the website">';
         echo "<h2>UFO WARS</h2>";
         echo "<!-- signUp and signIn buttons -->";
-        echo "<div>";
+        echo "<div id='sign-options'>";
         echo '<span class="sign-in">Sign In</span>';
         echo '<span class="sign-up">Sign Up</span>';
         echo "</div>";
@@ -87,7 +87,7 @@
         echo '<span id="reg-closeWindow" class="closeWindow">&times;</span>';
         echo '<h1>Sign up Form</h1>';
         echo '<p class="error-message required-field"></p>';
-        echo '<form onsubmit="return submitRegForm();">';
+        echo '<form onsubmit="return false;">';
         echo '<label for="txtUsername">Username <span class="required-field">*</span>:</label>';
         echo '<input type="text" id="reg-txtUsername" required name="username">';
         echo '<br>';
@@ -114,7 +114,7 @@
         echo '<label id="chkAgeLabel" for="chkAge">Confirm that you are over 12 years old <span class="required-field">*</span></label>';
         echo '<br>';
         echo '<p><span class="required-field">*</span> Required fields</p>';
-        echo '<input id="reg-form-submit" class="btnSubmit" type="submit" value="submit">';
+        echo '<input id="reg-form-submit" onclick="submitRegForm();" class="btnSubmit" type="submit" value="submit">';
         echo '</form>';
         echo '</div>';
         echo '</div>';
@@ -128,7 +128,7 @@
         echo '<span id="login-closeWindow" class="closeWindow">&times;</span>';
         echo '<h1>Sign up Form</h1>';
         echo '<p class="error-message required-field"></p>';
-        echo '<form onsubmit="return submitLoginForm();">';
+        echo '<form onsubmit="return false;">';
         echo '<label for="txtEmail">Email:</label>';
         echo '<input type="text" id="login-txtEmail" required name="email">';
         echo '<br>';
@@ -138,7 +138,7 @@
         echo '<input type="checkbox" id="savePass" name="savePass">';
         echo '<label id="savePassLabel" for="savePass">Save password</label>';
         echo '<br>';
-        echo '<input id="login-form-submit" class="btnSubmit" type="submit" value="submit">';
+        echo '<input id="login-form-submit" onclick="submitLoginForm();" class="btnSubmit" type="submit" value="submit">';
         echo '</form>';
         echo '</div>';
         echo '</div>';
