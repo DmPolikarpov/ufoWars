@@ -160,6 +160,8 @@
             echo '<script src="static/js/element.js"></script>';
             echo '<script src="static/js/bullet.js"></script>';
             echo '<script src="static/js/game.js"></script>';
+        } else if ($pageName == "leaderboard") {
+            echo '<script src="static/js/leader-board.js"></script>';
         }
         echo '</body>';
         echo '</html>';

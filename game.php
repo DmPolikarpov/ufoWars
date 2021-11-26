@@ -32,7 +32,7 @@
                 <h3>Attempts: <span id="attempts-value"></span></h3>
             </div>
             <div id="best-scores">
-                <h3>Best Score: <span></span></h3>
+                <h3>Best Score: <span id="bestResult-value"></span></h3>
             </div>
             <div id="hits">
                 <h3>Hits: <span id="hits-value"></span></h3>

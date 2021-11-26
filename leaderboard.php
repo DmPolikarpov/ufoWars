@@ -25,14 +25,10 @@
 
         <h1>Leader Board</h1>
         <div class="description section">
-            <table>
+            <table id="leader-table">
                 <tr>
                     <th>Username</th>
                     <th>Scores</th>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
                 </tr>
             </table>
         </div>
@@ -40,5 +36,5 @@
 
 <?php
     //inserts footer into the webpage
-    addFooter();
+    addFooter("leaderboard");
 ?>

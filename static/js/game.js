@@ -9,10 +9,11 @@ const enemyUfo = document.getElementById("enemy-ufo");
 const shieldElement = document.getElementById("shield");
 const newObject = document.getElementById("object");
 const addLogo = document.getElementsByClassName("addLogo")[0];
-const startMessage = document.getElementsByClassName("start-message")[0];
-const playerScores = document.getElementById("score-value");
-const playerLifes = document.getElementById("attempts-value");
-const strikes = document.getElementById("hits-value");
+let startMessage = document.getElementsByClassName("start-message")[0];
+let playerScores = document.getElementById("score-value");
+let totalBestResult = document.getElementById("bestResult-value");
+let playerLifes = document.getElementById("attempts-value");
+let strikes = document.getElementById("hits-value");
 //define sizes of canvas
 canvas.width = 1500;
 canvas.height = 1000;
@@ -63,6 +64,21 @@ let game = () => {
         }, 10);
     
 }
+//checks if the user is authorized, it so the function takes scores the current user collect, 
+//compares them with the best score of that user and saves the best result
+let saveScores = () => {
+    console.log("okay1");
+    if (sessionStorage.currentUser) {
+        console.log("okay2");
+        let currentUserEmail = JSON.parse(sessionStorage.getItem("currentUser")).email;
+        let currentUser = JSON.parse(localStorage.getItem(currentUserEmail));
+        if (currentUser.bestResult < scores) {
+            console.log("okay3");
+            currentUser.bestResult = scores;
+        }
+        localStorage.setItem(currentUserEmail, JSON.stringify(currentUser));
+    }
+}
 //function that stops the game
 let stopGame = () => {
     if (gameProcess) {
@@ -87,6 +103,7 @@ let screenMessage = (msg, size) => {
 //function checks number of user lifes and stops the game when user lost
 let gameOver = () => {
     if(lifes === 0) {
+        saveScores();
         removeAllBullets();
         removeAllObjects();
         clearInterval(runningGame);
@@ -101,6 +118,7 @@ let gameWon = () => {
         removeAllObjects();
         clearInterval(runningGame);
         screenMessage("YOU WON", 170);
+        saveScores();
         setTimeout(stopGame, 5000);
     }
 }
@@ -148,11 +166,24 @@ const startSettings = () => {
 let randomX = () => {
     return Math.floor(Math.random() * (6 * canvasWidth / 7 ));
 }
+//function gets the best score
+let getBestScore = () => {
+    let bestScore = 0;
+    for (let i = 0; i < localStorage.length; i++) {
+        let email = localStorage.key(i);
+        let bestUserResult = JSON.parse(localStorage.getItem(email)).bestResult;
+        if (bestUserResult > bestScore) {
+            bestScore = bestUserResult;
+        }
+    }
+    return bestScore;
+}
 //function displays game statistic on the page
 let displayStatistic = () => {
     playerScores.textContent = scores;
     playerLifes.textContent = lifes;
     strikes.textContent = hits;
+    totalBestResult.textContent = getBestScore();
 }
 //function draws all game elements on the screen
 const drawElements = () => {

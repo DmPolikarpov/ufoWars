@@ -17,10 +17,11 @@ let signOption = document.getElementById("sign-options");
 let errorElement = document.getElementsByClassName("error-message")[0];
 let errorMessage = "";
 
-//if a session is open this function hides "signUp" and "signIn" buttons and shows username of the current user and "signOut" button
-let showCurrentUserSession = () => {
-    if (sessionStorage.currentUser != undefined) {
-        signOption.innerHTML = '<span>Hello, ' + sessionStorage.currentUser + '</span><span class="sign-out">Sign Out</span>';
+//if there is an authorized user this function hides "signUp" and "signIn" buttons and shows username of the current user and "signOut" button
+let showCurrentUser = () => {
+    if (sessionStorage.currentUser) {
+        let user = JSON.parse(sessionStorage.getItem("currentUser"))
+        signOption.innerHTML = '<span>Hello, ' + user.username + '</span><span class="sign-out">Sign Out</span>';
         const btnSignOut = document.getElementsByClassName("sign-out")[0];
         btnSignOut.addEventListener("click", () => {
             sessionStorage.removeItem("currentUser");
@@ -28,7 +29,7 @@ let showCurrentUserSession = () => {
         })
     } 
 }
-showCurrentUserSession();
+showCurrentUser();
 
 /******* functions for forms validation *******/
 
@@ -155,9 +156,6 @@ let addNewUser = () => {
     localStorage.getItem(newUser.email) ? alert("A new user was added successfully") : alert("Oppss... it is not good... try again");
 }
 
-//closes a session
-
-
 //process submit event in sign up form
 let submitRegForm = () => {
     showRegistrationErrors();
@@ -181,8 +179,12 @@ let submitLoginForm = () => {
     if (userExists(loginEmail.value)) {
         user = JSON.parse(localStorage.getItem(loginEmail.value));
         if (user && user.password === loginPassword.value) {
-            sessionStorage.currentUser = user.username;
-            showCurrentUserSession();
+            let currentUser = {
+                "username" : user.username,
+                "email" : user.email
+            };
+            sessionStorage.setItem("currentUser", JSON.stringify(currentUser));
+            showCurrentUser();
             closeWindow(loginWindow);
         } else {
             alert("check your password");
