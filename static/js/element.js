@@ -1,4 +1,4 @@
-class Element extends Image {
+export class Element extends Image {
     x0 = 0;
     y0 = 0;
     width = 0;

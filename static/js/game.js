@@ -20,6 +20,9 @@ canvas.height = 1000;
 //create variables for canvas properties
 const canvasWidth = canvas.width;
 const canvasHeight = canvas.height;
+//import classes
+import {Element} from './element.js';
+import {Bullet} from './bullet.js';
 //create instanses of class Element for enemy space ship, user space ship and a shield
 const enemy = new Element(684, 76, 132, 76, enemyUfo.src);
 const user = new Element(684, 833, 132, 76, userUfo.src);

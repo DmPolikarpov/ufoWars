@@ -1,4 +1,4 @@
-class Bullet {
+export class Bullet {
     x0 = 0;
     y0 = 0;
     width = 0;

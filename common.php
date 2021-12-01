@@ -157,9 +157,7 @@
         echo '</footer>';
         echo '<script src="static/js/form-processing.js"></script>';
         if ($pageName == "game") {
-            echo '<script src="static/js/element.js"></script>';
-            echo '<script src="static/js/bullet.js"></script>';
-            echo '<script src="static/js/game.js"></script>';
+            echo '<script type="module" src="static/js/game.js"></script>';
         } else if ($pageName == "leaderboard") {
             echo '<script src="static/js/leader-board.js"></script>';
         }
