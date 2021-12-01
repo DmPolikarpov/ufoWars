@@ -23,7 +23,9 @@ let showCurrentUser = () => {
     if (sessionStorage.currentUser) {
         let user = JSON.parse(sessionStorage.getItem("currentUser"))
         signOption.innerHTML = '<span>Hello, ' + user.username + '</span><span class="sign-out">Sign Out</span>';
-        indexSignOption.innerHTML = '<button class="sign-out btnStyle">Sign Out</button>'
+        if (indexSignOption) {
+            indexSignOption.innerHTML = '<button class="sign-out btnStyle">Sign Out</button>'
+        }
         const btnSignOut = document.getElementsByClassName("sign-out");
         for (const element of btnSignOut) {
             element.addEventListener("click", () => {

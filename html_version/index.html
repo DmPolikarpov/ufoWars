@@ -13,7 +13,7 @@
             <img src="../static/images/logo.png" alt="logotype of the website">
             <h2>UFO WARS</h2>
             <!-- signUp and signIn buttons -->
-            <div>
+            <div id='sign-options'>
                 <span class="sign-in">Sign In</span>
                 <span class="sign-up">Sign Up</span>
             </div>
@@ -45,8 +45,8 @@
                 <div class="sign-form">
                     <span id="reg-closeWindow" class="closeWindow">&times;</span>
                     <h1>Sign up Form</h1>
-                    <p class="error-message required-field"></p>
-                    <form>
+                    <div class="error-message required-field"></div>
+                    <form onsubmit="return false;">
                         <label for="txtUsername">Username <span class="required-field">*</span>:</label>
                         <input type="text" id="reg-txtUsername" required name="username">
                         <br>
@@ -73,7 +73,7 @@
                         <label id="chkAgeLabel" for="chkAge">Confirm that you are over 12 years old <span class="required-field">*</span></label>
                         <br>
                         <p><span class="required-field">*</span> Required fields</p>
-                        <input id="reg-form-submit" class="btnSubmit" type="submit" value="submit">
+                        <input id="reg-form-submit" onclick="submitRegForm();" class="btnSubmit" type="submit" value="submit">
                     </form>
                 </div>
             </div>
@@ -82,25 +82,25 @@
                 <div class="sign-form">
                     <span id="login-closeWindow" class="closeWindow">&times;</span>
                     <h1>Sign up Form</h1>
-                    <p class="error-message required-field"></p>
-                    <form>
-                        <label for="txtUsername">Username:</label>
-                        <input type="text" id="login-txtUsername" required name="username">
+                    <div class="error-message required-field"></div>
+                    <form onsubmit="return false;">
+                        <label for="txtEmail">Email:</label>
+                        <input type="text" id="login-txtEmail" required name="email">
                         <br>
                         <label for="txtPassword">Password:</label>
                         <input type="password" id="login-txtPassword" required name="password">
                         <br>
-                        <input type="checkbox" id="savePass" required name="savePass">
+                        <input type="checkbox" id="savePass" name="savePass">
                         <label id="savePassLabel" for="savePass">Save password</label>
                         <br>
-                        <input id="login-form-submit" class="btnSubmit" type="submit" value="submit">
+                        <input id="login-form-submit" onclick="submitLoginForm();" class="btnSubmit" type="submit" value="submit">
                     </form>
                 </div>
             </div>
             <h1>Welcome to our amazing game!</h1>
             <!-- video of the game -->
             <div class="game-video">
-                <video autoplay muted>
+                <video autoplay muted controls loop>
                     <source src="../static/video/video.mp4" type="video/mp4">
                     Please, update your browser.
                 </video>
@@ -119,8 +119,10 @@
             <!-- authorization -->
             <div class="authorization section">
                 <h2 class="section-title">Authorization</h2>
-                <button class="sign-up btnStyle">Sign up</button>
-                <button class="sign-in btnStyle">Sign in</button>
+                <div id='index-sign-options'>
+                    <button class="sign-up btnStyle">Sign up</button>
+                    <button class="sign-in btnStyle">Sign in</button>
+                </div>
                 <h2 class="section-title play-game">... or just enjoy the game:</h2>
                 <a href="game.html"><button class="btnStyle">Play</button></a>
             </div>
@@ -134,6 +136,6 @@
             </div>
             <h3 class="footer-item age-limit">12+</h3>
         </footer>
-        <script src="../static/js/popup-windows.js"></script>
+        <script src="../static/js/form-processing.js"></script>
     </body>
 </html>

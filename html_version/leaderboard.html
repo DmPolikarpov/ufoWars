@@ -27,7 +27,7 @@
         <header>
             <img src="../static/images/logo.png" alt="logotype of the website">
             <h2>UFO WARS</h2>
-            <div>
+            <div id='sign-options'>
                 <span class="sign-in">Sign In</span>
                 <span class="sign-up">Sign Up</span>
             </div>
@@ -59,8 +59,8 @@
                 <div class="sign-form">
                     <span id="reg-closeWindow" class="closeWindow">&times;</span>
                     <h1>Sign up Form</h1>
-                    <p class="error-message required-field"></p>
-                    <form>
+                    <div class="error-message required-field"></div>
+                    <form onsubmit="return false;">
                         <label for="txtUsername">Username <span class="required-field">*</span>:</label>
                         <input type="text" id="reg-txtUsername" required name="username">
                         <br>
@@ -87,7 +87,7 @@
                         <label id="chkAgeLabel" for="chkAge">Confirm that you are over 12 years old <span class="required-field">*</span></label>
                         <br>
                         <p><span class="required-field">*</span> Required fields</p>
-                        <input id="reg-form-submit" class="btnSubmit" type="submit" value="submit">
+                        <input id="reg-form-submit" onclick="submitRegForm();" class="btnSubmit" type="submit" value="submit">
                     </form>
                 </div>
             </div>
@@ -96,35 +96,31 @@
                 <div class="sign-form">
                     <span id="login-closeWindow" class="closeWindow">&times;</span>
                     <h1>Sign up Form</h1>
-                    <p class="error-message required-field"></p>
-                    <form>
-                        <label for="txtUsername">Username:</label>
-                        <input type="text" id="login-txtUsername" required name="username">
+                    <div class="error-message required-field"></div>
+                    <form onsubmit="return false;">
+                        <label for="txtEmail">Email:</label>
+                        <input type="text" id="login-txtEmail" required name="email">
                         <br>
                         <label for="txtPassword">Password:</label>
                         <input type="password" id="login-txtPassword" required name="password">
                         <br>
-                        <input type="checkbox" id="savePass" required name="savePass">
+                        <input type="checkbox" id="savePass"  name="savePass">
                         <label id="savePassLabel" for="savePass">Save password</label>
                         <br>
-                        <input id="login-form-submit" class="btnSubmit" type="submit" value="submit">
+                        <input id="login-form-submit" onclick="submitLoginForm();" class="btnSubmit" type="submit" value="submit">
                     </form>
                 </div>
             </div>
             <h1>Leader Board</h1>
-            <div class="description section">
-                <table>
-                    <tr>
-                        <th>Username</th>
-                        <th>Scores</th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
-        </div>   
+        <div class="description section">
+            <table id="leader-table">
+                <tr>
+                    <th>Username</th>
+                    <th>Scores</th>
+                </tr>
+            </table>
+        </div>
+    </div>   
         <!-- footer -->
         <footer>
             <p class="footer-item">Contact us:</p>
@@ -134,6 +130,7 @@
             </div>
             <h3 class="footer-item age-limit">12+</h3>
         </footer>
-        <script src="../static/js/popup-windows.js"></script>
+        <script src="../static/js/form-processing.js"></script>
+        <script src="../static/js/leader-board.js"></script>
     </body>
 </html>
