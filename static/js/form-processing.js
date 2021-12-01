@@ -14,7 +14,8 @@ const loginWindow = document.getElementById("login-window");
 const regBtnClose = document.getElementById("reg-closeWindow");
 const loginBtnClose = document.getElementById("login-closeWindow");
 let signOption = document.getElementById("sign-options");
-let errorElement = document.getElementsByClassName("error-message")[0];
+let indexSignOption = document.getElementById("index-sign-options");
+let errorElement = document.getElementsByClassName("error-message");
 let errorMessage = "";
 
 //if there is an authorized user this function hides "signUp" and "signIn" buttons and shows username of the current user and "signOut" button
@@ -22,11 +23,14 @@ let showCurrentUser = () => {
     if (sessionStorage.currentUser) {
         let user = JSON.parse(sessionStorage.getItem("currentUser"))
         signOption.innerHTML = '<span>Hello, ' + user.username + '</span><span class="sign-out">Sign Out</span>';
-        const btnSignOut = document.getElementsByClassName("sign-out")[0];
-        btnSignOut.addEventListener("click", () => {
-            sessionStorage.removeItem("currentUser");
-            location.reload();
-        })
+        indexSignOption.innerHTML = '<button class="sign-out btnStyle">Sign Out</button>'
+        const btnSignOut = document.getElementsByClassName("sign-out");
+        for (const element of btnSignOut) {
+            element.addEventListener("click", () => {
+                sessionStorage.removeItem("currentUser");
+                location.reload();
+            })
+        }
     } 
 }
 showCurrentUser();
@@ -66,16 +70,16 @@ let checkFields = () => {
 let showRegistrationErrors = () => {
     errorMessage = "";
     if (checkFields() === false) {
-        errorMessage += " fill all fields; ";
+        errorMessage += "<p> - fill all fields;<br></p>";
     } 
     if (isMail(email.value) === false) {
-        errorMessage += " check your email address; ";
+        errorMessage += "<p> - check your email address;<br></p>";
     } 
     if (isPhone(phoneNumber.value) === false) {
-        errorMessage += " check format of phone number; ";
+        errorMessage += "<p> - check format of phone number; <br></p>";
     }
     if (isPasswordValid(regPassword.value, passwordConf.value) === false) {
-        errorMessage += " check your password; ";
+        errorMessage += "<p> - check your password;<br></p>";
     }
 }
 //checks if there are errors or not and returns true or false
@@ -109,7 +113,6 @@ let usernameExists = (username) => {
 let openWindow = (element) => {
     element.addEventListener("click", () => {
         if (element.classList[0] === "sign-up") {
-            alert("okay");
             regWindow.style.display = "block";
         } else if (element.classList[0] === "sign-in") {
             loginWindow.style.display = "block";
@@ -121,7 +124,9 @@ let openWindow = (element) => {
 let closeWindow = (element) => {
     element.style.display = "none";
     errorMessage = "";
-    errorElement.textContent = "";
+    for (const element of errorElement) {
+        element.innerHTML = "";
+    }
 }
 
 //allows to open forms using different buttons
@@ -160,12 +165,14 @@ let addNewUser = () => {
 let submitRegForm = () => {
     showRegistrationErrors();
     if (isError()) {
-        errorElement.textContent = errorMessage;
+        errorElement[0].innerHTML = errorMessage;
     } else {
         if (userExists(email.value)) {
-            alert("User with the same email already exists");
+            errorMessage = "<p> - User with the same email already exists;<br></p>"
+            errorElement[0].innerHTML = errorMessage;
         } else if (usernameExists(regUsername.value)) {
-            alert("User with the same username already exists");
+            errorMessage = "<p> - User with the same username already exists;<br></p>"
+            errorElement[0].innerHTML = errorMessage;
         } else {
             addNewUser();
             closeWindow(regWindow);
@@ -187,10 +194,12 @@ let submitLoginForm = () => {
             showCurrentUser();
             closeWindow(loginWindow);
         } else {
-            alert("check your password");
+            errorMessage = "<p> - check your password;<br></p>";
+            errorElement[1].innerHTML = errorMessage;
         }
     } else {
-        alert("check your email address");
+        errorMessage = "<p> - check your email address;<br></p>";
+        errorElement[1].innerHTML = errorMessage;
     }
 }
 

@@ -45,8 +45,10 @@
         <!-- authorization -->
         <div class="authorization section">
             <h2 class="section-title">Authorization</h2>
-            <button class="sign-up btnStyle">Sign up</button>
-            <button class="sign-in btnStyle">Sign in</button>
+            <div id='index-sign-options'>
+                <button class="sign-up btnStyle">Sign up</button>
+                <button class="sign-in btnStyle">Sign in</button>
+            </div>
             <h2 class="section-title play-game">... or just enjoy the game:</h2>
             <a href="game.php"><button class="btnStyle">Play</button></a>
         </div>

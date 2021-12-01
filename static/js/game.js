@@ -67,13 +67,10 @@ let game = () => {
 //checks if the user is authorized, it so the function takes scores the current user collect, 
 //compares them with the best score of that user and saves the best result
 let saveScores = () => {
-    console.log("okay1");
     if (sessionStorage.currentUser) {
-        console.log("okay2");
         let currentUserEmail = JSON.parse(sessionStorage.getItem("currentUser")).email;
         let currentUser = JSON.parse(localStorage.getItem(currentUserEmail));
         if (currentUser.bestResult < scores) {
-            console.log("okay3");
             currentUser.bestResult = scores;
         }
         localStorage.setItem(currentUserEmail, JSON.stringify(currentUser));
@@ -357,7 +354,7 @@ const collideEvent = (firstElement, secondElement) => {
 
 //function creates enemy bullet instanses, add them into the enemy bullet array
 const addEnemyBullet = () => {
-    if (allEnemyBullets.length < 2 && lifes !== 0) {
+    if (allEnemyBullets.length < 3 && lifes !== 0) {
         let bullet = new Bullet(enemy.x0 + enemy.width / 2, enemy.y0 + enemy.height / 2, 10, 15, "#D40B27", ctx);
         allEnemyBullets.push(bullet); 
     }
@@ -386,8 +383,9 @@ const updateEnemyBulletPosition = () => {
             allEnemyBullets[i].x0 = enemy.x0 + enemy.width / 2;
             allEnemyBullets[i].y0 = enemy.y0 + enemy.height / 2;
         }
-        if (allEnemyBullets[i].y0 > canvas.height/2) {
+        if (allEnemyBullets[i].y0 > canvas.height/3 && allEnemyBullets[i].nextBullet_Triggered == false) {
             addEnemyBullet();
+            allEnemyBullets[i].nextBullet_Triggered = true
         }
         if (collideEvent(allEnemyBullets[i], shield)) {
             allEnemyBullets[i].x0 = enemy.x0 + enemy.width / 2;

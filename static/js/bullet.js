@@ -5,6 +5,7 @@ class Bullet {
     height = 0;
     color = "#FFFFFF";
     speed = 3;
+    nextBullet_Triggered=false
 
     constructor(x0, y0, width, height, color, context) {
         this.color = color;

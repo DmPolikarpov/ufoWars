@@ -86,7 +86,7 @@
         echo '<div class="sign-form">';
         echo '<span id="reg-closeWindow" class="closeWindow">&times;</span>';
         echo '<h1>Sign up Form</h1>';
-        echo '<p class="error-message required-field"></p>';
+        echo '<div class="error-message required-field"></div>';
         echo '<form onsubmit="return false;">';
         echo '<label for="txtUsername">Username <span class="required-field">*</span>:</label>';
         echo '<input type="text" id="reg-txtUsername" required name="username">';
@@ -126,8 +126,8 @@
         echo '<div id="login-window" class="popup-window">';
         echo '<div class="sign-form">';
         echo '<span id="login-closeWindow" class="closeWindow">&times;</span>';
-        echo '<h1>Sign up Form</h1>';
-        echo '<p class="error-message required-field"></p>';
+        echo '<h1>Sign In Form</h1>';
+        echo '<div class="error-message required-field"></div>';
         echo '<form onsubmit="return false;">';
         echo '<label for="txtEmail">Email:</label>';
         echo '<input type="text" id="login-txtEmail" required name="email">';
