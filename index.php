@@ -26,7 +26,7 @@
         <h1>Welcome to our amazing game!</h1>
         <!-- video of the game -->
         <div class="game-video">
-            <video autoplay muted>
+            <video autoplay muted controls loop>
                 <source src="static/video/video.mp4" type="video/mp4">
                 Please, update your browser.
             </video>
