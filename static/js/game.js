@@ -21,12 +21,13 @@ canvas.height = 1000;
 const canvasWidth = canvas.width;
 const canvasHeight = canvas.height;
 //import classes
-import {Element} from './element.js';
+import { UserSprite } from './userSprite.js';
+import { EnemySprite } from './enemySprite.js';
 import {Bullet} from './bullet.js';
 //create instanses of class Element for enemy space ship, user space ship and a shield
-const enemy = new Element(684, 76, 132, 76, enemyUfo.src);
-const user = new Element(684, 833, 132, 76, userUfo.src);
-const shield = new Element(684, 734, 142, 19, shieldElement.src);
+const enemy = new EnemySprite(684, 76, 132, 76, enemyUfo.src, canvas);
+const user = new UserSprite(684, 833, 132, 76, userUfo.src, canvas);
+const shield = new UserSprite(684, 734, 142, 19, shieldElement.src, canvas);
 //create variables to control the game, store bullets, scores and lifes
 let gameProcess = false;
 let runningGame;
@@ -53,12 +54,12 @@ let game = () => {
         startSettings();
         runningGame = setInterval(() => {
             if (!pause) {
-                updateHorizontalPosition(enemy);
+                enemy.updateHorizontalPosition();
                 for (let i = 0; i < objectsGroup.length; i++) {
-                    updateHorizontalPosition(objectsGroup[i]);
+                    objectsGroup[i].updateHorizontalPosition();
                 }
-                updateUserPosition(user);
-                updateUserPosition(shield);
+                user.updatePosition();
+                shield.updatePosition();
                 updateEnemyBulletPosition();
                 updateUserBulletPosition();
                 drawElements();
@@ -280,13 +281,13 @@ let nextLevel = () => {
 //function creates new object instanses, add them into the objectGroup array
 const addNewObject = () => {
     if (objectsGroup.length < 1 && level === 2) {
-        let object = new Element(canvasWidth/2, canvasHeight/3, 174, 47, newObject.src);
+        let object = new EnemySprite(canvasWidth/2, canvasHeight/3, 174, 47, newObject.src, canvas);
         object.speed = 1;
-        leftSwitch = false;
-        rightSwitch = true;
+        object.leftSwitch = false;
+        object.rightSwitch = true;
         objectsGroup.push(object); 
     } else if (objectsGroup.length < 2 && level === 3) {
-        let object = new Element(canvasWidth/3, canvasHeight/2, 174, 47, newObject.src);
+        let object = new EnemySprite(canvasWidth/3, canvasHeight/2, 174, 47, newObject.src, canvas);
         object.speed = 1.5;
         objectsGroup.push(object); 
     };
@@ -296,25 +297,6 @@ const addNewObject = () => {
 //function removes all objects from the screen
 const removeAllObjects = () => {
     objectsGroup.splice(0, objectsGroup.length);
-}
-
-//function receives an element as an argument and updates its horisontal position 
-const updateHorizontalPosition = (element) => {
-    if (element.leftSwitch) {
-        if ((element.x0 + element.width) < canvasWidth) {
-            element.x0 += element.speed;
-        } else {
-            element.leftSwitch = false;
-            element.rightSwitch = true;
-        }
-    } else if (element.rightSwitch) {
-        if (element.x0 > 0) {
-            element.x0 -= element.speed;
-        } else {
-            element.leftSwitch = true;
-            element.rightSwitch = false;
-        }
-    }
 }
 
 //function calculates scores after each successful strike
@@ -334,15 +316,7 @@ const addScores = () => {
             break;
     }
 }
-//function receives an element (user ship or shield) as an argument and updates its position 
-const updateUserPosition = (element) => {
-    if ((element.rightMove) & ((element.x0 + element.width) < canvasWidth)) {
-        element.x0 += element.speed;
-    }
-    if ((element.leftMove) & (element.x0 > 0)) {
-        element.x0 -= element.speed;
-    }
-}
+
 //function checks collisions between two elements
 // and returns true (if there is a collision) or false (if there is not any collision)
 const collideEvent = (firstElement, secondElement) => {
