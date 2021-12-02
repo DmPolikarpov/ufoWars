@@ -135,9 +135,6 @@
         echo '<label for="txtPassword">Password:</label>';
         echo '<input type="password" id="login-txtPassword" required name="password">';
         echo '<br>';
-        echo '<input type="checkbox" id="savePass" name="savePass">';
-        echo '<label id="savePassLabel" for="savePass">Save password</label>';
-        echo '<br>';
         echo '<input id="login-form-submit" onclick="submitLoginForm();" class="btnSubmit" type="submit" value="submit">';
         echo '</form>';
         echo '</div>';
