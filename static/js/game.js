@@ -1,3 +1,5 @@
+//turns on the strict mode
+"use strict";
 //create variables for DOM elements
 const startGame = document.getElementById("btnNewGame");
 const resetGame = document.getElementById("btnReset");
@@ -12,7 +14,7 @@ const addLogo = document.getElementsByClassName("addLogo")[0];
 let startMessage = document.getElementsByClassName("start-message")[0];
 let playerScores = document.getElementById("score-value");
 let totalBestResult = document.getElementById("bestResult-value");
-let playerLifes = document.getElementById("attempts-value");
+let playerLives = document.getElementById("attempts-value");
 let strikes = document.getElementById("hits-value");
 //define sizes of canvas
 canvas.width = 1500;
@@ -24,11 +26,11 @@ const canvasHeight = canvas.height;
 import { UserSprite } from './userSprite.js';
 import { EnemySprite } from './enemySprite.js';
 import {Bullet} from './bullet.js';
-//create instanses of class Element for enemy space ship, user space ship and a shield
+//create instanses of classes for enemy space ship, user space ship and a shield
 const enemy = new EnemySprite(684, 76, 132, 76, enemyUfo.src, canvas);
 const user = new UserSprite(684, 833, 132, 76, userUfo.src, canvas);
 const shield = new UserSprite(684, 734, 142, 19, shieldElement.src, canvas);
-//create variables to control the game, store bullets, scores and lifes
+//create variables to control the game, store bullets, scores and lives
 let gameProcess = false;
 let runningGame;
 let pause;
@@ -37,15 +39,15 @@ let allUserBullets = [];
 let objectsGroup = [];
 let level;
 let scores;
-let lifes;
+let lives;
 let hits;
 
 /******* functions to start, stop and reset a game *******/
 
-//function that runs the game
+//function that defines all initial values for scores, lives, hits, game level and runs the game
 let game = () => {
         scores = 0;
-        lifes = 3;
+        lives = 3;
         hits = 0;
         level = 1;
         user.setSpeed(3);
@@ -101,9 +103,9 @@ let screenMessage = (msg, size) => {
     ctx.textAlign = "center";
     ctx.fillText(msg, canvasWidth/2, canvasHeight/2);
 }
-//function checks number of user lifes and stops the game when user lost
+//function checks number of user lives and stops the game when user lost
 let gameOver = () => {
-    if(lifes === 0) {
+    if(lives === 0) {
         saveScores();
         removeAllBullets();
         removeAllObjects();
@@ -182,7 +184,7 @@ let getBestScore = () => {
 //function displays game statistic on the page
 let displayStatistic = () => {
     playerScores.textContent = scores;
-    playerLifes.textContent = lifes;
+    playerLives.textContent = lifes;
     strikes.textContent = hits;
     totalBestResult.textContent = getBestScore();
 }
@@ -331,7 +333,7 @@ const collideEvent = (firstElement, secondElement) => {
 
 //function creates enemy bullet instanses, add them into the enemy bullet array
 const addEnemyBullet = () => {
-    if (allEnemyBullets.length < 3 && lifes !== 0) {
+    if (allEnemyBullets.length < 3 && lives !== 0) {
         let bullet = new Bullet(enemy.x0 + enemy.width / 2, enemy.y0 + enemy.height / 2, 10, 15, "#D40B27", ctx);
         allEnemyBullets.push(bullet); 
     }
@@ -372,7 +374,7 @@ const updateEnemyBulletPosition = () => {
         if (collideEvent(allEnemyBullets[i], user)) {
             allEnemyBullets[i].x0 = enemy.x0 + enemy.width / 2;
             allEnemyBullets[i].y0 = enemy.y0 + enemy.height / 2;
-            lifes -= 1;
+            lives -= 1;
             scores -= 10;
             strikeProcess();
         }

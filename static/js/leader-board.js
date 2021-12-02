@@ -1,3 +1,4 @@
+//create variable for DOM element
 let leaderTable = document.getElementById("leader-table");
 //an array of all leaders
 let leaders = [];

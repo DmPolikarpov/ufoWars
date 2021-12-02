@@ -380,7 +380,7 @@ footer p {
 .opened {
     display: block;
 }
-
+/* animation that rotates the logo berofe the game starts */
 @keyframes logoRotating {
     0% {
         transform: rotateY(0deg);
@@ -398,7 +398,7 @@ footer p {
         transform: rotateY(360deg);
     }
 }
-
+/* animation to make buttons "start game" and "reset" blinking */
 @keyframes blinking {
     0%   {
         background-color: #c7c7c4;

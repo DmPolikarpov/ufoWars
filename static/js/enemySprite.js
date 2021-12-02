@@ -1,15 +1,15 @@
+//import parent class Element to inherite
 import {Element} from './element.js';
-
+//class EnemySprite that inherites from class Element and models enemy sprite element (enemy space ship and objects)
 export class EnemySprite extends Element {
-
+    //class variables with their default values
     leftSwitch = true;
     rightSwitch = false;
-
+    //constructor that assigns class variables with values for a particular class instance
     constructor(x0, y0, width, height, source, canvas) {
         super(x0, y0, width, height, source, canvas);
     }
-
-    //function receives an element as an argument and updates its horisontal position 
+    //method that updates horisontal position of class instance
     updateHorizontalPosition () {
         if (this.leftSwitch) {
             if ((this.x0 + this.width) < this.canvas.width) {

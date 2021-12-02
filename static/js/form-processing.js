@@ -1,3 +1,6 @@
+//turns on the strict mode
+"use strict";
+//create variables for DOM elements
 const loginBtnSubmit = document.getElementById("login-form-submit");
 let email = document.getElementById("txtEmail");
 let phoneNumber = document.getElementById("txtPhone");
@@ -16,6 +19,7 @@ const loginBtnClose = document.getElementById("login-closeWindow");
 let signOption = document.getElementById("sign-options");
 let indexSignOption = document.getElementById("index-sign-options");
 let errorElement = document.getElementsByClassName("error-message");
+//variable to store error messages
 let errorMessage = "";
 
 //if there is an authorized user this function hides "signUp" and "signIn" buttons and shows username of the current user and "signOut" button
@@ -35,28 +39,29 @@ let showCurrentUser = () => {
         }
     } 
 }
+//invokes the function showCurrentUser()
 showCurrentUser();
 
 /******* functions for forms validation *******/
 
-//email validation
+//email validation (return true or false)
 let isMail = (mail) => {
     var mailPattern = /^([a-zA-Z0-9+-._])+\@(([a-zA-Z-.])+\.)+([a-zA-Z]{2,6})+$/;
     return mailPattern.test(mail);
 }
 
-//phone number validation
+//phone number validation (return true or false)
 let isPhone = (phone) => {
     var numberPattern = /^\+([0-9]{6,})$/;
     return numberPattern.test(phone);
 }
 
-//password validation
+//password validation (return true or false)
 let isPasswordValid = (pass, passConf) => {
     return pass != passConf ? false : true;
 }
 
-//checks missing fields
+//checks missing fields (return true or false)
 let checkFields = () => {
     if (regUsername.value === "" || 
         email.value === "" ||
@@ -68,7 +73,7 @@ let checkFields = () => {
         }
     return true;
 }
-//displays registration form validation errors
+//displays registration form validation errors (returns content of error message variable)
 let showRegistrationErrors = () => {
     errorMessage = "";
     if (checkFields() === false) {
@@ -88,14 +93,14 @@ let showRegistrationErrors = () => {
 let isError = () => {
     return errorMessage ? true : false;
 }
-//checks if such user exists
+//checks if such user exists (return true or false)
 let userExists = (email) => {
     if(localStorage.getItem(email) != null) {
         return true; 
     } 
     return false;
 }
-//checks if such username exists
+//checks if such username exists (return true or false)
 let usernameExists = (username) => {
     for(let i = 0; i < localStorage.length; i++) {
         let email = localStorage.key(i);
@@ -122,7 +127,7 @@ let openWindow = (element) => {
     });
 }
 
-//closes popup window
+//closes popup windows
 let closeWindow = (element) => {
     element.style.display = "none";
     errorMessage = "";
@@ -160,7 +165,7 @@ let addNewUser = () => {
         "bestResult": 0
     }
     localStorage.setItem(newUser.email, JSON.stringify(newUser));
-    localStorage.getItem(newUser.email) ? alert("A new user was added successfully") : alert("Oppss... it is not good... try again");
+    localStorage.getItem(newUser.email) ? alert("A new user was added successfully") : alert("Ooopss... it is not good... try again");
 }
 
 //process submit event in sign up form
